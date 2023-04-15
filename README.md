@@ -2,7 +2,14 @@
 
 Program for generating playlist recommendations.
 
-### Preliminary API calls and Flask server runs
+## Preliminary API calls and Flask server runs with Docker
+1. Build the docker image
+```docker image build -t ium_pozytywka . ```
+2. Run a new container
+```docker run -p 5000:5000 -d ium_pozytywka ```
+3. Test with example curl shown at the bottom. As the port-binding was used, the application will be visible also under localhost:5000
+
+## Preliminary API calls and Flask server runs on localhost
 Steps:
 1. Install Flask: ```pip install Flask```
 2. Run the server on localhost: ```python3 app/main.py```
