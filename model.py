@@ -1,6 +1,7 @@
 from jsonLoader import *
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer
 
 tracks = getTracks()
 
@@ -22,6 +23,14 @@ one_hot_artist = pd.get_dummies(df2.id_artist, prefix="id_a")
 df2.drop(labels=("id_artist"), axis=1, inplace=True)
 df2 = df2.join(one_hot_artist)
 # zamienić na one hot tagów
+
+# a = ["cod", "lgbt+ hip hop", "hip hop"]
+# b = ",".join(a)
+# b = [b]
+# vectorizer = CountVectorizer(tokenizer=lambda x: x.split(','))
+# X = vectorizer.fit_transform(b)
+# vectorizer.get_feature_names_out()
+
 
 
 # print(df2.columns)
