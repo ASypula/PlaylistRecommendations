@@ -14,12 +14,17 @@ df = pd.DataFrame.from_dict(tracks)
 df2 = df.copy()
 df2.drop(labels=("id"), axis=1, inplace=True)
 df2.drop(labels=("name"), axis=1, inplace=True)
-df2.drop(labels=("id_artist"), axis=1, inplace=True)
+# df2.drop(labels=("id_artist"), axis=1, inplace=True)
 df2.drop(labels=("release_date"), axis=1, inplace=True)
 # dodać dekodowanie release_date do datatime, bo niektóre utwory maja 2 wersje z różną datą
 
+one_hot_artist = pd.get_dummies(df2.id_artist, prefix="id_a")
+df2.drop(labels=("id_artist"), axis=1, inplace=True)
+df2 = df2.join(one_hot_artist)
+# zamienić na one hot tagów
 
-# print(df2)
+
+# print(df2.columns)
 
 def recommend_most_popular(col,col_value,top_n=5):
     return df[df[col]>=col_value].sort_values(by='popularity',ascending = False).head(top_n)[['name',col,'popularity']]
@@ -38,4 +43,4 @@ def reccomend_similar(songName):
     indices = [i[0] for i in similarityScore]
     return (df['name'].iloc[indices])
 
-print(reccomend_similar('Wind Of Change'))
+print(reccomend_similar('Wannabe'))
