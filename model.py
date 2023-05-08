@@ -2,6 +2,7 @@ from jsonLoader import *
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
+import re
 
 tracks = getTracks()
 artists = getArtists()
@@ -24,8 +25,22 @@ mapping = pd.Series(tracks.index,index = tracks['name'])
 tracks2 = tracks.copy()
 tracks2.drop(labels=("id"), axis=1, inplace=True)
 tracks2.drop(labels=("name"), axis=1, inplace=True)
-tracks2.drop(labels=("release_date"), axis=1, inplace=True)
 # dodać dekodowanie release_date do datatime, bo niektóre utwory maja 2 wersje z różną datą
+
+def applyDateParser(dateString):
+    regs = r"[0-9]{4}-[0-9\-]*"
+    if (re.match(regs, dateString)):
+        return int(dateString[:4])
+    else:
+        return int(dateString)
+
+
+def parseDates():
+    tracks2['release_date'] = tracks2['release_date'].apply(applyDateParser)
+
+def dropDates():
+    tracks2.drop(labels=("release_date"), axis=1, inplace=True)
+
 
 def dropArtists():
     tracks2.drop(labels=("id_artist"), axis=1, inplace=True)
@@ -38,7 +53,7 @@ def applyGenres(id_artist):
     genres = ",".join(genres).lower()
     return genres
 
-def countEncodeGenres():
+def countEncodeGenres(tracks2):
     tracks2.rename(columns= {"id_artist":"genres"}, inplace=True)
     tracks2["genres"] = tracks2["genres"].apply(applyGenres)
     vectorizer = CountVectorizer(tokenizer=lambda x: x.split(','))
@@ -61,8 +76,9 @@ def oneHotArtists():
 
 
 
-
-countEncodeGenres()
+parseDates()
+countEncodeGenres(tracks2)
+# dropArtists()
 similarityMatrix = cosine_similarity(tracks2, tracks2)
 
 def reccomend_similar(songName):
