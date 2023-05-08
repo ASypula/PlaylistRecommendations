@@ -25,7 +25,11 @@ mapping = pd.Series(tracks.index,index = tracks['name'])
 tracks2 = tracks.copy()
 tracks2.drop(labels=("id"), axis=1, inplace=True)
 tracks2.drop(labels=("name"), axis=1, inplace=True)
-# dodać dekodowanie release_date do datatime, bo niektóre utwory maja 2 wersje z różną datą
+
+def dropRedundant():
+    tracks2.drop(labels=("loudness"), axis=1, inplace=True)
+    tracks2.drop(labels=("acousticness"), axis=1, inplace=True)
+    tracks2.drop(labels=("valence"), axis=1, inplace=True)
 
 def applyDateParser(dateString):
     regs = r"[0-9]{4}-[0-9\-]*"
@@ -66,7 +70,7 @@ def countEncodeGenres(tracks2):
     tracks2.drop(labels=("genres"), axis=1, inplace=True)
     tracks2 = tracks2.join(countVectorGenres)
 
-def oneHotArtists():
+def oneHotArtists(tracks2):
     one_hot_artist = pd.get_dummies(tracks2.id_artist, prefix="id_a", dtype=float)
     tracks2.drop(labels=("id_artist"), axis=1, inplace=True)
     tracks2 = tracks2.join(one_hot_artist)
@@ -75,7 +79,7 @@ def oneHotArtists():
 
 
 
-
+dropRedundant()
 parseDates()
 countEncodeGenres(tracks2)
 # dropArtists()
