@@ -4,45 +4,66 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
 tracks = getTracks()
+artists = getArtists()
 
 # Superstar
 # Wannabe
 # You and Me
 
-df = pd.DataFrame.from_dict(tracks)
-# print(df)
-
-df2 = df.copy()
-df2.drop(labels=("id"), axis=1, inplace=True)
-df2.drop(labels=("name"), axis=1, inplace=True)
-# df2.drop(labels=("id_artist"), axis=1, inplace=True)
-df2.drop(labels=("release_date"), axis=1, inplace=True)
-# dodać dekodowanie release_date do datatime, bo niektóre utwory maja 2 wersje z różną datą
-
-one_hot_artist = pd.get_dummies(df2.id_artist, prefix="id_a")
-df2.drop(labels=("id_artist"), axis=1, inplace=True)
-df2 = df2.join(one_hot_artist)
-# zamienić na one hot tagów
-
-# a = ["cod", "lgbt+ hip hop", "hip hop"]
-# b = ",".join(a)
-# b = [b]
-# vectorizer = CountVectorizer(tokenizer=lambda x: x.split(','))
-# X = vectorizer.fit_transform(b)
-# vectorizer.get_feature_names_out()
-
-
-
-# print(df2.columns)
+tracks = pd.DataFrame.from_dict(tracks)
+artists = pd.DataFrame.from_dict(artists)
 
 def recommend_most_popular(col,col_value,top_n=5):
-    return df[df[col]>=col_value].sort_values(by='popularity',ascending = False).head(top_n)[['name',col,'popularity']]
+    return tracks[tracks[col]>=col_value].sort_values(by='popularity',ascending = False).head(top_n)[['name',col,'popularity']]
 
 # print(recommend_most_popular('valence', 0.9))
 
+mapping = pd.Series(tracks.index,index = tracks['name'])
+# print(tracks)
 
-mapping = pd.Series(df.index,index = df['name'])
-similarityMatrix = cosine_similarity(df2, df2)
+tracks2 = tracks.copy()
+tracks2.drop(labels=("id"), axis=1, inplace=True)
+tracks2.drop(labels=("name"), axis=1, inplace=True)
+tracks2.drop(labels=("release_date"), axis=1, inplace=True)
+# dodać dekodowanie release_date do datatime, bo niektóre utwory maja 2 wersje z różną datą
+
+def dropArtists():
+    tracks2.drop(labels=("id_artist"), axis=1, inplace=True)
+    
+
+def applyGenres(id_artist):
+    # df.loc[df['column_name'] == some_value]
+    genres = artists.loc[artists['id'] == id_artist]
+    genres = genres.iloc[0]['genres']
+    genres = ",".join(genres).lower()
+    return genres
+
+def countEncodeGenres():
+    tracks2.rename(columns= {"id_artist":"genres"}, inplace=True)
+    tracks2["genres"] = tracks2["genres"].apply(applyGenres)
+    vectorizer = CountVectorizer(tokenizer=lambda x: x.split(','))
+    X = vectorizer.fit_transform(tracks2['genres'])
+    X.toarray()
+    genrestags = vectorizer.get_feature_names_out()
+    countVectorGenres = pd.DataFrame(X.toarray(),columns=genrestags)
+    # print(countVectorGenres.head())
+
+    tracks2.drop(labels=("genres"), axis=1, inplace=True)
+    tracks2 = tracks2.join(countVectorGenres)
+
+def oneHotArtists():
+    one_hot_artist = pd.get_dummies(tracks2.id_artist, prefix="id_a", dtype=float)
+    tracks2.drop(labels=("id_artist"), axis=1, inplace=True)
+    tracks2 = tracks2.join(one_hot_artist)
+
+
+
+
+
+
+
+countEncodeGenres()
+similarityMatrix = cosine_similarity(tracks2, tracks2)
 
 def reccomend_similar(songName):
     songIndex = mapping[songName]
@@ -50,6 +71,6 @@ def reccomend_similar(songName):
     similarityScore = sorted(similarityScore, key=lambda x: x[1], reverse=True)
     similarityScore = similarityScore[1:15]
     indices = [i[0] for i in similarityScore]
-    return (df['name'].iloc[indices])
+    return (tracks['name'].iloc[indices])
 
 print(reccomend_similar('Wannabe'))
