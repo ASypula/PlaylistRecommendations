@@ -5,18 +5,21 @@ from sklearn.feature_extraction.text import CountVectorizer
 import re
 
 
-class Reccomender:
+class Recommender:
     tracks =[]
     artists = []
     mapping = []
     tracks2 = []
+
+    def __init__(self, searchPattern='id') -> None:
+        self.sp = searchPattern
 
     def loadData(self):
         self.tracks = getTracks()
         self.artists = getArtists()
         self.tracks = pd.DataFrame.from_dict(self.tracks)
         self.artists = pd.DataFrame.from_dict(self.artists)
-        self.mapping = pd.Series(self.tracks.index,index = self.tracks['name'])
+        self.mapping = pd.Series(self.tracks.index,index = self.tracks[self.sp])
 
     def initVector(self):
         self.tracks2 = self.tracks.copy()
@@ -78,21 +81,21 @@ class Reccomender:
         self.tracks2 = self.tracks2.join(one_hot_artist)
 
 
-    def reccomend_similar(self,songName):
+    def reccomend_similar(self,songName, nrofRecc=10):
         songIndex = self.mapping[songName]
         similarityMatrix = cosine_similarity(self.tracks2, self.tracks2)
         similarityScore = list(enumerate(similarityMatrix[songIndex]))
         similarityScore = sorted(similarityScore, key=lambda x: x[1], reverse=True)
-        similarityScore = similarityScore[1:15]
+        similarityScore = similarityScore[1:nrofRecc + 1]
         indices = [i[0] for i in similarityScore]
-        return (self.tracks['name'].iloc[indices])
+        return (self.tracks[self.sp].iloc[indices])
 
-r = Reccomender()
-r.loadData()
-r.initVector()
-r.dropRedundant()
-r.parseDates()
-r.countEncodeGenres()
-# r.dropArtists()
+# r = Recommender()
+# r.loadData()
+# r.initVector()
+# r.dropRedundant()
+# r.parseDates()
+# r.countEncodeGenres()
+# # r.dropArtists()
 
-print(r.reccomend_similar('Wannabe'))
+# print(r.reccomend_similar('You and Me'))
