@@ -40,8 +40,12 @@ class Model:
         playlist[:20]
         return playlist
 
-        
-rec = Model()
-rec.loadData()
-print("loaded")
-print(rec.createPlaylist([101, 3100, 3092] ))
+def get_playlist(user_ids):
+    rec = Model()
+    rec.loadData()
+    print("loaded")
+    print(rec.createPlaylist(user_ids))
+
+if __name__ == "__main__":
+    user_ids = [101, 3100, 3092]
+    get_playlist()

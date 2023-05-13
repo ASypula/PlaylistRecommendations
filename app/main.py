@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request
-from utils import get_songs, parse_data
+from utils import get_song_names, parse_data
+from recommender import get_playlist
 
 app = Flask(__name__)
 
@@ -12,9 +13,10 @@ def index():
 @app.route('/playlist', methods=['POST']) 
 def playlists():
     data = request.json
-    users1, count = parse_data(data)
-    songs1, users2 = get_songs(users1)
-    return jsonify(users=users2, songs=songs1)
+    users, count = parse_data(data)
+    song_ids = get_playlist(users)
+    songs = get_song_names(song_ids)
+    return jsonify(users=users, songs=songs)
   
 if __name__=='__main__':
     port = int(os.environ.get('PORT', 5000))
