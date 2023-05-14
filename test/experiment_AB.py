@@ -14,8 +14,9 @@ def generate_playlist_results(model_gen, model_basic, user_ids, seed):
     count_basic = count_liked_genres(user_ids, playlist_basic)
     return count_gen, count_basic
 
-def run():
-    nr_tests = 1
+def run(nr_tests=1, users_count=[3]):
+    # nr_tests - number of tests to take for each given nr of users
+    # users_count - list with the numbers of users for playlist on each iteration e.g. [3, 6, 9]
     user_ids_range = (101, 3100)
     #TODO: seed powinien byc ustawiamy dla kazdego testu oddzielnie?
     seed = 1
@@ -23,7 +24,6 @@ def run():
     model_A = Model()
     model_A.loadData()
     model_B = BasicModel()
-    users_count = [3]
     for nr in users_count:
         for _ in range(nr_tests):
             random.seed(seed)
