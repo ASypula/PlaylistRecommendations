@@ -1,26 +1,27 @@
 # IUM
 
 Program for generating playlist recommendations.
+Can be run either using Docker container or Flask with Python3
 
-## Preliminary API calls and Flask server runs with Docker
+## Docker setup
 1. Build the docker image
 ```docker image build -t ium_pozytywka . ```
 2. Run a new container
 ```docker run -p 5000:5000 -d ium_pozytywka ```
 3. Test with example curl shown at the bottom. As the port-binding was used, the application will be visible also under localhost:5000
 
-## Preliminary API calls and Flask server runs on localhost
+## Flask server on localhost
 Steps:
 1. Install Flask: ```pip install Flask```
 2. Run the server on localhost: ```python3 app/main.py```
 
-Testing:
+## Usage
 * Use curl for making test POST requests
 * Template for json content:
 ```
 {
     "count": n,
-    "users": [
+    "user_ids": [
         x, y, z
     ]
 }
