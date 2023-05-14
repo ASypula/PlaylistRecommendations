@@ -1,4 +1,6 @@
-from jsonLoader import getArtists, getTracks
+# import sys
+# sys.path.append('./')
+from model.jsonLoader import getArtists, getTracks
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
@@ -80,11 +82,10 @@ class Recommender:
         self.tracks2.drop(labels=("id_artist"), axis=1, inplace=True)
         self.tracks2 = self.tracks2.join(one_hot_artist)
 
-    def similiarityMatrix(self):
+    def similarityMatrix(self):
         self.similarityMatrix = cosine_similarity(self.tracks2, self.tracks2)
 
-
-    def reccomend_similar(self,songName, nrofRecc=10):
+    def recommend_similar(self,songName, nrofRecc=10):
         songIndex = self.mapping[songName]
         similarityScore = list(enumerate(self.similarityMatrix[songIndex]))
         similarityScore = sorted(similarityScore, key=lambda x: x[1], reverse=True)
@@ -100,4 +101,4 @@ class Recommender:
 # r.countEncodeGenres()
 # # r.dropArtists()
 
-# print(r.reccomend_similar('You and Me'))
+# print(r.recommend_similar('You and Me'))

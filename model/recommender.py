@@ -1,7 +1,9 @@
-from model import Recommender
-from usersStats import UserStats
+from model.model import Recommender
+from model.usersStats import UserStats
 import random
 from itertools import zip_longest
+
+SONGS = 20
 
 class Model:
     def __init__(self) -> None:
@@ -26,7 +28,7 @@ class Model:
         random.shuffle(users)
         favourites = [self.us.userLikedSongs(u, 1)[0] for u in users]
         print("got favourites")
-        recommended = [self.r.reccomend_similar(s) for s in favourites]
+        recommended = [self.r.recommend_similar(s) for s in favourites]
         # print(recommended)
         rec = zip_longest(*recommended, fillvalue="?")
         rec = list(rec)
@@ -37,15 +39,12 @@ class Model:
         # print(rec)
 
         playlist = favourites + rec
-        playlist[:20]
-        return playlist
+        playlist[:SONGS]
+        return playlist   
 
-def get_playlist(user_ids):
+if __name__ == "__main__":
+    user_ids = [101, 3100, 3092]
     rec = Model()
     rec.loadData()
     print("loaded")
     print(rec.createPlaylist(user_ids))
-
-if __name__ == "__main__":
-    user_ids = [101, 3100, 3092]
-    get_playlist()

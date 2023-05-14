@@ -21,5 +21,4 @@ def parse_data(data):
         return users, count
     except KeyError as e:
         msg = "Invalid request, field \"users\" is missing."
-        #TODO: better error handling/displaying
         print(msg)

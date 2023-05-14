@@ -1,4 +1,4 @@
-from jsonLoader import getUsers, getSessions
+from model.jsonLoader import getUsers, getSessions
 import pandas as pd
 import numpy as np
 
