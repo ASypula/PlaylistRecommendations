@@ -10,6 +10,7 @@ class Recommender:
     artists = []
     mapping = []
     tracks2 = []
+    similiarityMatrix = []
 
     def __init__(self, searchPattern='id') -> None:
         self.sp = searchPattern
@@ -80,7 +81,7 @@ class Recommender:
         self.tracks2.drop(labels=("id_artist"), axis=1, inplace=True)
         self.tracks2 = self.tracks2.join(one_hot_artist)
 
-    def similiarityMatrix(self):
+    def computeSimiliarityMatrix(self):
         self.similarityMatrix = cosine_similarity(self.tracks2, self.tracks2)
 
 

@@ -14,10 +14,14 @@ class Model:
     def loadData(self):
         self.r.loadData()
         self.us.loadData()
+
+    def prepareModel(self):
         self.r.initVector()
         self.r.dropRedundant()
         self.r.parseDates()
         self.r.dropArtists()
+        self.r.computeSimiliarityMatrix()
+
 
     def createPlaylist(self, users: list):
         nrofUsers = len(users)
@@ -41,7 +45,9 @@ class Model:
         return playlist
 
         
-rec = Model()
-rec.loadData()
-print("loaded")
-print(rec.createPlaylist([101, 3100, 3092] ))
+# rec = Model()
+# rec.loadData()
+# print("loaded")
+# rec.prepareModel()
+# print("prepared")
+# print(rec.createPlaylist([101, 3100, 3092] ))
