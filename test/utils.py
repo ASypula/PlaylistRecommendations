@@ -20,7 +20,6 @@ def count_liked_genres_per_user(user_genres, songs_genres):
     user_sum = 0
     for song_genres in songs_genres:
         user_sum+=eval_matching_genre(user_genres, song_genres)
-    print(user_sum)
     return user_sum
 
 def get_users_genres(user_ids, users_file='./IUM_Zad_03_01_v4/users.jsonl'):
