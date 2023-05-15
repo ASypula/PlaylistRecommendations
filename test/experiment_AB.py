@@ -14,12 +14,13 @@ def generate_playlist_results(model_gen, model_basic, user_ids, seed):
     count_basic = count_liked_genres(user_ids, playlist_basic)
     return count_gen, count_basic
 
-def run(nr_tests=1, users_count=[3]):
+def run(nr_tests=20, users_count=[3, 5, 7, 9]):
     # nr_tests - number of tests to take for each given nr of users
     # users_count - list with the numbers of users for playlist on each iteration e.g. [3, 6, 9]
     user_ids_range = (101, 3100)
     #TODO: seed powinien byc ustawiamy dla kazdego testu oddzielnie?
     seed = 1
+    random.seed(seed)
     results_gen, results_basic = [], []
     model_A = Model()
     model_A.loadData()
@@ -27,8 +28,6 @@ def run(nr_tests=1, users_count=[3]):
     model_B = BasicModel()
     for nr in users_count:
         for _ in range(nr_tests):
-            random.seed(seed)
-            seed+=1
             random_ids = random.sample(range(user_ids_range[0], user_ids_range[1]+1), nr)
             result_A, result_B = generate_playlist_results(model_A, model_B, random_ids, seed)
             result_A = result_A/nr/SONGS
@@ -39,8 +38,9 @@ def run(nr_tests=1, users_count=[3]):
 
 def experiment_AB():
     results_gen, results_basic = run()
-    print(f"Results from model: {results_gen}")
-    print(f"Results from random: {results_basic}")
+    with open("test_results.txt", '+a') as f:
+        f.write(f"Results from model: {results_gen}")
+        f.write(f"Results from random: {results_basic}")
 
 if __name__=="__main__":
     experiment_AB()
