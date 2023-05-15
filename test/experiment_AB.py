@@ -23,6 +23,7 @@ def run(nr_tests=1, users_count=[3]):
     results_gen, results_basic = [], []
     model_A = Model()
     model_A.loadData()
+    model_A.prepareModel()
     model_B = BasicModel()
     for nr in users_count:
         for _ in range(nr_tests):

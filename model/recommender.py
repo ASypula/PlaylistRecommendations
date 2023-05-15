@@ -3,8 +3,6 @@ from model.usersStats import UserStats
 import random
 from itertools import zip_longest
 
-SONGS = 20
-
 class Model:
     def __init__(self) -> None:
         self.r = Recommender()
@@ -16,10 +14,14 @@ class Model:
     def loadData(self):
         self.r.loadData()
         self.us.loadData()
+
+    def prepareModel(self):
         self.r.initVector()
         self.r.dropRedundant()
         self.r.parseDates()
         self.r.dropArtists()
+        self.r.computeSimiliarityMatrix()
+
 
     def createPlaylist(self, users: list):
         nrofUsers = len(users)
@@ -28,7 +30,7 @@ class Model:
         random.shuffle(users)
         favourites = [self.us.userLikedSongs(u, 1)[0] for u in users]
         print("got favourites")
-        recommended = [self.r.recommend_similar(s) for s in favourites]
+        recommended = [self.r.reccomend_similar(s) for s in favourites]
         # print(recommended)
         rec = zip_longest(*recommended, fillvalue="?")
         rec = list(rec)
@@ -39,8 +41,17 @@ class Model:
         # print(rec)
 
         playlist = favourites + rec
-        playlist[:SONGS]
-        return playlist   
+        playlist[:20]
+        return playlist
+
+        
+# rec = Model()
+# rec.loadData()
+# print("loaded")
+# rec.prepareModel()
+# print("prepared")
+# print(rec.createPlaylist([101, 3100, 3092] ))
+
 
 if __name__ == "__main__":
     user_ids = [101, 3100, 3092]
