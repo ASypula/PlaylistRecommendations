@@ -8,7 +8,6 @@ class Model:
         self.r = Recommender()
         self.us = UserStats(42)
         self.loadData()
-        random.seed(42)
         self.pl = 20
 
     def loadData(self):
@@ -29,7 +28,6 @@ class Model:
             return []
         random.shuffle(users)
         favourites = [self.us.userLikedSongs(u, 1)[0] for u in users]
-        print("got favourites")
         recommended = [self.r.reccomend_similar(s) for s in favourites]
         # print(recommended)
         rec = zip_longest(*recommended, fillvalue="?")

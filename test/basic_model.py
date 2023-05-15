@@ -6,8 +6,7 @@ class BasicModel:
 
     tracks_file = './IUM_Zad_03_01_v4/tracks.jsonl'
 
-    def get_random_songs(self, nr: int, sd: int=10) -> list:
-        random.seed(sd)
+    def get_random_songs(self, nr: int) -> list:
         df_tracks = pd.read_json(self.tracks_file, lines=True)
         songs = []
         # generates a list of random integers without duplicates
