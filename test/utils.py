@@ -47,8 +47,3 @@ def count_liked_genres(user_ids, song_ids):
     for u_genres in users_genres:
         total += count_liked_genres_per_user(u_genres, songs_genres)
     return total
-
-# Test
-# user_ids = [101, 104, 134]
-# song_ids = ['4YjjNHtEsTX6Af4mCTupT5', '0F7FA14euOIX8KcbEturGH']
-# print(count_liked_genres(user_ids, song_ids))

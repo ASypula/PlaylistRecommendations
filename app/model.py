@@ -1,4 +1,4 @@
-from model.jsonLoader import getArtists, getTracks
+from jsonLoader import getArtists, getTracks
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
@@ -71,7 +71,6 @@ class Recommender:
         X.toarray()
         genrestags = vectorizer.get_feature_names_out()
         countVectorGenres = pd.DataFrame(X.toarray(),columns=genrestags)
-        # print(countVectorGenres.head())
 
         self.tracks2.drop(labels=("genres"), axis=1, inplace=True)
         self.tracks2 = self.tracks2.join(countVectorGenres)
@@ -92,13 +91,3 @@ class Recommender:
         similarityScore = similarityScore[1:nrofRecc + 1]
         indices = [i[0] for i in similarityScore]
         return (self.tracks[self.sp].iloc[indices])
-
-# r = Recommender()
-# r.loadData()
-# r.initVector()
-# r.dropRedundant()
-# r.parseDates()
-# r.countEncodeGenres()
-# # r.dropArtists()
-
-# print(r.reccomend_similar('You and Me'))

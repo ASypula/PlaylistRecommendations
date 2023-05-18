@@ -1,7 +1,7 @@
 import sys
 sys.path.append('./')
 import random
-from model.recommender import Model
+from app.recommender import Model
 from basic_model import BasicModel
 from utils import count_liked_genres
 

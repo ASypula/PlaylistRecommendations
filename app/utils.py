@@ -15,10 +15,9 @@ def get_song_names(ids: list, file: str='./IUM_Zad_03_01_v4/tracks.jsonl') -> li
 def parse_data(data):
     try:
         users = data["users"]
-        count = data.get("count", SONGS_TOTAL)
         if not isinstance(users, list):
             raise Exception("Incorrect parameters, a list of users should be provided.")
-        return users, count
+        return users
     except KeyError as e:
         msg = "Invalid request, field \"users\" is missing."
         print(msg)

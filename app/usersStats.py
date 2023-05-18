@@ -1,4 +1,4 @@
-from model.jsonLoader import getUsers, getSessions
+from jsonLoader import getSessions
 import pandas as pd
 import numpy as np
 
@@ -19,10 +19,3 @@ class UserStats:
         ll = len(liked.index)
         if ll < songs: songs = ll
         return liked.sample(songs)['track_id'].values.tolist()
-
-
-    
-# u = UserStats(42)
-# u.loadData()
-# # print(u.userTrackInteractions(101, "0qRR9d89hIS0MHRkQ0ejxX"))
-# print(u.userLikedSongs(3100))
