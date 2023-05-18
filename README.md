@@ -3,6 +3,10 @@
 Program for generating playlist recommendations.
 Can be run either using Docker container or Flask with Python3
 
+## Local setup
+1. Place folder with data - "IUM_Zad_03_01_v4" at the same level as other folders e.g. app
+2. Run the main file: ``` python3 app/main.py ```
+
 ## Docker setup
 1. Build the docker image
 ```docker image build -t ium_pozytywka . ```
