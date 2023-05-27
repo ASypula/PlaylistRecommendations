@@ -5,7 +5,7 @@ from app.recommender import Model
 from basic_model import BasicModel
 from utils import count_liked_genres
 
-random.seed(1)
+#random.seed(1)
 SONGS = 20
 
 def generate_playlist_results(model_gen, model_basic, user_ids):
@@ -15,7 +15,7 @@ def generate_playlist_results(model_gen, model_basic, user_ids):
     count_basic = count_liked_genres(user_ids, playlist_basic)
     return count_gen, count_basic
 
-def run(nr_tests=20, users_count=[3, 5, 7, 9]):
+def run(nr_tests=2, users_count=[3]):
     # nr_tests - number of tests to take for each given nr of users
     # users_count - list with the numbers of users for playlist on each iteration e.g. [3, 6, 9]
     user_ids_range = (101, 3100)

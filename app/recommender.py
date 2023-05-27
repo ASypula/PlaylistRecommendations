@@ -1,5 +1,5 @@
-from model import Recommender
-from usersStats import UserStats
+from app.model import Recommender
+from app.usersStats import UserStats
 import random
 from itertools import zip_longest
 

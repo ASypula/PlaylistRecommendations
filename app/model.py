@@ -1,4 +1,4 @@
-from jsonLoader import getArtists, getTracks
+from app.jsonLoader import getArtists, getTracks
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer

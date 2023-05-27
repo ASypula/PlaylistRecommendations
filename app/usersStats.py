@@ -1,4 +1,4 @@
-from jsonLoader import getSessions
+from app.jsonLoader import getSessions
 import pandas as pd
 import numpy as np
 

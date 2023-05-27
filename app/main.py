@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, request
-from utils import get_song_names, parse_data
-from recommender import Model
+from app.utils import get_song_names, parse_data
+from app.recommender import Model
 
 app = Flask(__name__)
 
