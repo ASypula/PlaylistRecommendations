@@ -41,3 +41,28 @@ curl -i -X POST -H "Content-Type: application/json" -d "{\"users\": [101, 103, 1
 
 * By default the server should expose the port 5000
 * In return the response should include names of the songs chosen for the playlist and the received ids of users
+
+## Experiment A/B
+Running experiment A/B for two models: the custom one implemented in the application
+and a random one that generates a list of track ids of required length.
+Experiment can be run either with default parameters: 20 iterations for each number of users
+given for the playlist creation. Numbers of users by default are 3, 6, 9.
+```
+python3 experiment/experiment_AB.py
+```
+Example for custom parameters
+```
+python3 experiment/experiment_AB.py 3 2 3 4
+```
+First parameter is the number of iterations and the rest are the counts of users for which tests are supposed to be run.
+
+Experiment results will be saved to an output file test_results.txt
+In the meantime all steps of the experiment with current state and results will be logged with the set importance to "info".
+
+## Tests
+Automated tests are created both for the utility functions as well as the main functionality of the model.
+Commands for running the tests:
+```
+python3 tests/test_models.py
+python3 tests/test_util_funcs.py
+```

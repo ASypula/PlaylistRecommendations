@@ -21,3 +21,4 @@ def parse_data(data):
     except KeyError as e:
         msg = "Invalid request, field \"users\" is missing."
         print(msg)
+        raise e

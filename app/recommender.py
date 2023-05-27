@@ -37,8 +37,8 @@ class Model:
         rec = list(filter(("?").__ne__, rec))
 
         playlist = favourites + rec
-        playlist[:SONG_NR]
-        return playlist
+        # playlist[:SONG_NR]
+        return playlist[:SONG_NR]
 
 if __name__ == "__main__":
     user_ids = [101, 310, 309]

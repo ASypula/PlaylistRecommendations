@@ -1,4 +1,7 @@
 import os
+import sys
+sys.path.append('./')
+import random
 from flask import Flask, jsonify, request
 from app.utils import get_song_names, parse_data
 from app.recommender import Model
@@ -8,6 +11,8 @@ app = Flask(__name__)
 rec = Model()
 rec.loadData()
 rec.prepareModel()
+
+random.seed(1)
 
 @app.route('/')
 def index():
