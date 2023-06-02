@@ -1,4 +1,6 @@
-# IUM
+# Playlists' recommendations generator
+
+Project for a Machine Learning Engineering course at Warsaw University of Technology.
 
 Program for generating playlist recommendations.
 Can be run either using Docker container or Flask with Python3
@@ -66,3 +68,7 @@ Commands for running the tests:
 python3 tests/test_models.py
 python3 tests/test_util_funcs.py
 ```
+
+Team:
+* Aleksandra Sypula
+* Eryk Sztanga
